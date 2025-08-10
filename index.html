@@ -488,13 +488,13 @@
 
     <script>
         function startTest(testNumber) {
-            if (testNumber === 1) {
-                // Redirect to Test 1 (your existing test)
-                window.location.href = 'test-01.html';
-            } else {
-                comingSoon(testNumber);
-            }
-        }
+    if (testNumber === 1) {
+        // Open Test 1 in new tab
+        window.open('https://c1uoe11.vercel.app/', '_blank');
+    } else {
+        comingSoon(testNumber);
+    }
+}
 
         function comingSoon(testNumber) {
             const messages = [
