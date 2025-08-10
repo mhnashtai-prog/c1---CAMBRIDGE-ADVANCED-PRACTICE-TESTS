@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C1 Test Hub - Level Up Your English! 🚀</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="grad" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%" style="stop-color:%23ffffff;stop-opacity:0" /></radialGradient></defs><circle cx="20" cy="20" r="2" fill="url(%23grad)"><animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="1.5" fill="url(%23grad)"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></circle><circle cx="40" cy="70" r="1" fill="url(%23grad)"><animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite"/></circle></svg>') repeat;
+            animation: float 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-100px, -100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5em, 5vw, 4em);
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease-in-out infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .hero-tagline {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .test-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .test-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .test-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .test-card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .test-number {
+            font-size: 2.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .test-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .test-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .test-status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .status-coming-soon {
+            background: linear-gradient(135deg, #ffa726, #ff7043);
+            color: white;
+        }
+
+        .test-features {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .motivational-quote {
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .footer-text {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .tests-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-bar {
+                gap: 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+        }
+
+        /* Pulse animation for available tests */
+        @keyframes pulse {
+            0% { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2); }
+            100% { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); }
+        }
+
+        .test-card.available {
+            animation: pulse 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">C1 Test Hub</h1>
+            <p class="hero-subtitle">🔥 Level Up Your Cambridge English Skills! 🔥</p>
+            <p class="hero-tagline">Master the C1 Advanced exam with interactive practice tests</p>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Practice Tests</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">400+</div>
+                    <div class="stat-label">Questions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Skill Areas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">🎯 Choose Your Challenge</h2>
+        
+        <div class="tests-grid">
+            <!-- Column 1: Tests 1-6 -->
+            <div class="test-column">
+                <div class="test-card available" onclick="startTest(1)">
+                    <div class="test-card-content">
+                        <div class="test-number">01</div>
+                        <div class="test-title">Grammar Foundations</div>
+                        <div class="test-description">Master conditionals, passive voice, and advanced tenses</div>
+                        <div class="test-status status-available">✨ Available Now</div>
+                        <div class="test-features">
+                            <span class="feature-tag">34 Questions</span>
+                            <span class="feature-tag">Explanations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(2)">
+                    <div class="test-card-content">
+                        <div class="test-number">02</div>
+                        <div class="test-title">Phrasal Verb Mastery</div>
+                        <div class="test-description">Conquer advanced phrasal verbs and idioms</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">30 Questions</span>
+                            <span class="feature-tag">Audio Examples</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(3)">
+                    <div class="test-card-content">
+                        <div class="test-number">03</div>
+                        <div class="test-title">Complex Structures</div>
+                        <div class="test-description">Advanced sentence patterns and transformations</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">28 Questions</span>
+                            <span class="feature-tag">Video Tips</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(4)">
+                    <div class="test-card-content">
+                        <div class="test-number">04</div>
+                        <div class="test-title">Academic Vocabulary</div>
+                        <div class="test-description">University-level word formation and collocations</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">35 Questions</span>
+                            <span class="feature-tag">Flashcards</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(5)">
+                    <div class="test-card-content">
+                        <div class="test-number">05</div>
+                        <div class="test-title">Business English</div>
+                        <div class="test-description">Professional contexts and formal language</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">32 Questions</span>
+                            <span class="feature-tag">Real Scenarios</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(6)">
+                    <div class="test-card-content">
+                        <div class="test-number">06</div>
+                        <div class="test-title">Literary Analysis</div>
+                        <div class="test-description">Understanding complex texts and literary devices</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">26 Questions</span>
+                            <span class="feature-tag">Text Analysis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Tests 7-12 -->
+            <div class="test-column">
+                <div class="test-card" onclick="comingSoon(7)">
+                    <div class="test-card-content">
+                        <div class="test-number">07</div>
+                        <div class="test-title">Scientific Discourse</div>
+                        <div class="test-description">Technical vocabulary and scientific writing</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">29 Questions</span>
+                            <span class="feature-tag">Diagrams</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(8)">
+                    <div class="test-card-content">
+                        <div class="test-number">08</div>
+                        <div class="test-title">Cultural Context</div>
+                        <div class="test-description">Idiomatic expressions and cultural references</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">31 Questions</span>
+                            <span class="feature-tag">Culture Notes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(9)">
+                    <div class="test-card-content">
+                        <div class="test-number">09</div>
+                        <div class="test-title">Debate & Discussion</div>
+                        <div class="test-description">Argumentative structures and opinion language</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">27 Questions</span>
+                            <span class="feature-tag">Speaking Tips</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(10)">
+                    <div class="test-card-content">
+                        <div class="test-number">10</div>
+                        <div class="test-title">Media & Technology</div>
+                        <div class="test-description">Digital age vocabulary and modern communication</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">33 Questions</span>
+                            <span class="feature-tag">Interactive Media</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(11)">
+                    <div class="test-card-content">
+                        <div class="test-number">11</div>
+                        <div class="test-title">Mock Exam Prep</div>
+                        <div class="test-description">Full exam simulation with time pressure</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">40 Questions</span>
+                            <span class="feature-tag">Timed Test</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card" onclick="comingSoon(12)">
+                    <div class="test-card-content">
+                        <div class="test-number">12</div>
+                        <div class="test-title">Advanced Mastery</div>
+                        <div class="test-description">The ultimate C1 challenge for experts</div>
+                        <div class="test-status status-coming-soon">🚀 Coming Soon</div>
+                        <div class="test-features">
+                            <span class="feature-tag">45 Questions</span>
+                            <span class="feature-tag">Expert Level</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <p class="motivational-quote">"The limits of my language mean the limits of my world." - Wittgenstein</p>
+            <p class="footer-text">🎓 Master C1 Advanced • Build confidence • Achieve excellence</p>
+        </div>
+    </div>
+
+    <script>
+        function startTest(testNumber) {
+            if (testNumber === 1) {
+                // Redirect to Test 1 (your existing test)
+                window.location.href = 'test-01.html';
+            } else {
+                comingSoon(testNumber);
+            }
+        }
+
+        function comingSoon(testNumber) {
+            const messages = [
+                "🔥 Test 2 is being crafted with love!",
+                "🚀 Test 3 will blow your mind!",
+                "✨ Test 4 is worth the wait!",
+                "🎯 Test 5 is almost ready!",
+                "💪 Test 6 will challenge you!",
+                "🌟 Test 7 is coming soon!",
+                "🎪 Test 8 will be amazing!",
+                "🏆 Test 9 is being perfected!",
+                "🔮 Test 10 is in development!",
+                "⚡ Test 11 will be epic!",
+                "🎊 Test 12 is the ultimate challenge!"
+            ];
+            
+            const message = messages[testNumber - 2] || `Test ${testNumber} is coming soon!`;
+            
+            // Create a cool popup
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+                font-size: 1.2em;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                animation: popIn 0.3s ease-out;
+            `;
+            
+            popup.innerHTML = `
+                ${message}<br>
+                <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.9;">
+                    Your teacher is working hard to create more awesome tests!
+                </div>
+                <button onclick="this.parentElement.remove()" style="
+                    background: white;
+                    color: #667eea;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    margin-top: 20px;
+                    cursor: pointer;
+                    font-weight: 600;
+                ">Got it! 👍</button>
+            `;
+            
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes popIn {
+                    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+                    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(popup);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (popup.parentElement) {
+                    popup.remove();
+                }
+            }, 4000);
+        }
+
+        // Add some interactive sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.style.cssText = `
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: white;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 100;
+                animation: sparkleAnimation 2s linear forwards;
+            `;
+            
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            
+            const sparkleStyle = document.createElement('style');
+            sparkleStyle.textContent = `
+                @keyframes sparkleAnimation {
+                    0% { opacity: 1; transform: scale(0); }
+                    50% { opacity: 1; transform: scale(1); }
+                    100% { opacity: 0; transform: scale(0); }
+                }
+            `;
+            document.head.appendChild(sparkleStyle);
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        // Create sparkles occasionally
+        setInterval(createSparkle, 3000);
+    </script>
+</body>
+</html>
