@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C1 Test 2 - Phrasal Verb Mastery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: #ff6b6b;
+        }
+
+        .menu-card h3 {
+            color: #ff6b6b;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .menu-card .question-count {
+            background: #fff0f0;
+            color: #ff6b6b;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .test-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a6f);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .question {
+            background: #fff8f8;
+            border: 2px solid #ffe8e8;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .question.current {
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .options {
+            margin: 15px 0;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #ff6b6b;
+            background: #fff8f8;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            scale: 1.2;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .results-container {
+            text-align: center;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .score-display h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .score-display p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .results-details {
+            background: #fff8f8;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid transparent;
+        }
+
+        .result-item.correct {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .result-item.incorrect {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .explanation {
+            background: #ffe7e7;
+            border: 1px solid #ffb3b3;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .section-title {
+            color: #ff6b6b;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C1 Test 2 - Phrasal Verb Mastery</h1>
+        <p>Cambridge English: Advanced - Master complex phrasal verbs and idiomatic expressions</p>
+    </header>
+
+    <div class="container">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="main-menu">
+            <div class="menu-card" onclick="startSection('multipleChoice')">
+                <h3>📝 Multiple Choice Cloze</h3>
+                <p>Choose the correct phrasal verb to complete each sentence.</p>
+                <span class="question-count">12 questions</span>
+            </div>
+            
+            <div class="menu-card" onclick="startSection('openCloze')">
+                <h3>📋 Open Cloze</h3>
+                <p>Fill in missing prepositions and particles in phrasal verbs.</p>
+                <span class="question-count">8 questions</span>
+            </div>
+            
+            <div class="menu-card" onclick="startSection('wordFormation')">
+                <h3>🔤 Word Formation</h3>
+                <p>Transform words to create appropriate phrasal verb forms.</p>
+                <span class="question-count">8 questions</span>
+            </div>
+            
+            <div class="menu-card" onclick="startSection('sentenceTransformation')">
+                <h3>🔄 Key Word Transformations</h3>
+                <p>Rewrite sentences using specific phrasal verbs.</p>
+                <span class="question-count">6 questions</span>
+            </div>
+
+            <div class="menu-card" onclick="startFullTest()">
+                <h3>🎯 Complete Phrasal Verb Test</h3>
+                <p>Test your mastery of all phrasal verb patterns together.</p>
+                <span class="question-count">34 questions total</span>
+            </div>
+        </div>
+
+        <!-- Test Container -->
+        <div id="testContainer" class="test-container hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <h2 class="section-title" id="sectionTitle"></h2>
+            
+            <div id="questionsContainer"></div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+                
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-info" id="showAnswersBtn" onclick="showAnswers()">Show Answers</button>
+                    <button class="btn btn-info" id="showExplanationsBtn" onclick="showExplanations()">Explanations</button>
+                </div>
+                
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer" class="test-container hidden">
+            <div class="results-container">
+                <div class="score-display">
+                    <h2 id="finalScore">0/0</h2>
+                    <p id="scorePercentage">0%</p>
+                    <p id="scoreMessage">Well done!</p>
+                </div>
+                
+                <div class="results-details" id="detailedResults"></div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="returnToMenu()">← Main Menu</button>
+                    <button class="btn btn-success" onclick="backToHub()">🏠 Test Hub</button>
+                    <button class="btn btn-info" onclick="reviewAnswers()">Review Answers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test data focused on phrasal verbs
+        const testData = {
+            multipleChoice: [
+                {
+                    question: "The company decided to ______ the new product launch until next quarter.",
+                    options: ["put off", "put on", "put up", "put through"],
+                    answer: "put off",
+                    explanation: "'Put off' means to postpone or delay something until a later time."
+                },
+                {
+                    question: "I can't ______ with his constant complaining anymore.",
+                    options: ["put up", "put down", "put out", "put across"],
+                    answer: "put up",
+                    explanation: "'Put up with' means to tolerate or endure something unpleasant."
+                },
+                {
+                    question: "The fire brigade managed to ______ the blaze before it spread to other buildings.",
+                    options: ["put down", "put out", "put away", "put back"],
+                    answer: "put out",
+                    explanation: "'Put out' means to extinguish a fire."
+                },
+                {
+                    question: "She really ______ herself across well during the job interview.",
+                    options: ["got", "put", "came", "brought"],
+                    answer: "put",
+                    explanation: "'Put oneself across' means to communicate one's ideas or personality effectively."
+                },
+                {
+                    question: "The meeting has been ______ until tomorrow morning.",
+                    options: ["called off", "called up", "called for", "called on"],
+                    answer: "called off",
+                    explanation: "'Called off' means cancelled or postponed."
+                },
+                {
+                    question: "I ______ my old friend yesterday when I was walking through town.",
+                    options: ["ran into", "ran over", "ran up", "ran through"],
+                    answer: "ran into",
+                    explanation: "'Ran into' means to meet someone unexpectedly."
+                },
+                {
+                    question: "The children have been ______ all morning - they're exhausted now.",
+                    options: ["running about", "running along", "running away", "running down"],
+                    answer: "running about",
+                    explanation: "'Running about' means being very active and moving around energetically."
+                },
+                {
+                    question: "His proposal was ______ by the board of directors.",
+                    options: ["turned down", "turned up", "turned over", "turned in"],
+                    answer: "turned down",
+                    explanation: "'Turned down' means rejected or refused."
+                },
+                {
+                    question: "Could you ______ the volume? I can't hear the TV.",
+                    options: ["turn up", "turn down", "turn over", "turn off"],
+                    answer: "turn up",
+                    explanation: "'Turn up' means to increase the volume or intensity."
+                },
+                {
+                    question: "We need to ______ a solution to this problem quickly.",
+                    options: ["come up with", "come down with", "come across", "come round"],
+                    answer: "come up with",
+                    explanation: "'Come up with' means to think of or produce an idea or solution."
+                },
+                {
+                    question: "I ______ a really interesting article about climate change yesterday.",
+                    options: ["came across", "came along", "came about", "came around"],
+                    answer: "came across",
+                    explanation: "'Came across' means to find or discover something by chance."
+                },
+                {
+                    question: "The issue ______ during our discussion about the budget.",
+                    options: ["came up", "came down", "came off", "came through"],
+                    answer: "came up",
+                    explanation: "'Came up' means to arise or be mentioned in conversation."
+                }
+            ],
+            
+            openCloze: [
+                {
+                    sentence: "Please don't give ______ trying - you're almost there!",
+                    answer: "up",
+                    explanation: "'Give up' means to stop trying or surrender."
+                },
+                {
+                    sentence: "The teacher asked me to hand ______ my essay by Friday.",
+                    answer: "in",
+                    explanation: "'Hand in' means to submit or give something to someone in authority."
+                },
+                {
+                    sentence: "I'm looking ______ to seeing you at the party tonight.",
+                    answer: "forward",
+                    explanation: "'Look forward to' means to anticipate something with pleasure."
+                },
+                {
+                    sentence: "Can you look ______ my cat while I'm on holiday?",
+                    answer: "after",
+                    explanation: "'Look after' means to take care of someone or something."
+                },
+                {
+                    sentence: "The plane took ______ despite the bad weather conditions.",
+                    answer: "off",
+                    explanation: "'Take off' means to leave the ground (for aircraft) or to depart quickly."
+                },
+                {
+                    sentence: "I need to work ______ the answer to this math problem.",
+                    answer: "out",
+                    explanation: "'Work out' means to solve or calculate something."
+                },
+                {
+                    sentence: "She broke ______ in tears when she heard the news.",
+                    answer: "down",
+                    explanation: "'Break down' can mean to start crying uncontrollably or to stop functioning."
+                },
+                {
+                    sentence: "The car broke ______ on the motorway and we had to call for help.",
+                    answer: "down",
+                    explanation: "'Break down' means to stop working or functioning (for machines)."
+                }
+            ],
+            
+            wordFormation: [
+                {
+                    sentence: "The meeting was ______ (PUT) until next week due to illness.",
+                    answer: "put off",
+                    explanation: "'Put off' (postponed) is the correct phrasal verb form meaning to delay."
+                },
+                {
+                    sentence: "I can't ______ (WORK) what he's trying to say.",
+                    answer: "work out",
+                    explanation: "'Work out' means to understand or figure something out."
+                },
+                {
+                    sentence: "The children are really ______ (LOOK) to the school trip.",
+                    answer: "looking forward",
+                    explanation: "'Looking forward to' expresses anticipation and excitement about future events."
+                },
+                {
+                    sentence: "Could you ______ (TURN) the music? It's too loud.",
+                    answer: "turn down",
+                    explanation: "'Turn down' means to reduce the volume or intensity of something."
+                },
+                {
+                    sentence: "I accidentally ______ (COME) my old diary while cleaning the attic.",
+                    answer: "came across",
+                    explanation: "'Come across' means to find something unexpectedly."
+                },
+                {
+                    sentence: "The company decided to ______ (CARRY) with the project despite the setbacks.",
+                    answer: "carry on",
+                    explanation: "'Carry on' means to continue doing something."
+                },
+                {
+                    sentence: "I need to ______ (GIVE) smoking for my health.",
+                    answer: "give up",
+                    explanation: "'Give up' means to stop doing something, especially a habit."
+                },
+                {
+                    sentence: "The babysitter will ______ (LOOK) the children tonight.",
+                    answer: "look after",
+                    explanation: "'Look after' means to take care of or be responsible for someone or something."
+                }
+            ],
+            
+            sentenceTransformation: [
+                {
+                    question: "They cancelled the concert because of bad weather. → The concert was ______ because of bad weather.",
+                    answer: "called off",
+                    explanation: "'Called off' is the phrasal verb equivalent of 'cancelled'."
+                },
+                {
+                    question: "I met Sarah unexpectedly at the shopping center. → I ______ Sarah at the shopping center.",
+                    answer: "ran into",
+                    explanation: "'Ran into' means to meet someone by chance or unexpectedly."
+                },
+                {
+                    question: "The proposal was rejected by the committee. → The committee ______ the proposal.",
+                    answer: "turned down",
+                    explanation: "'Turned down' is the phrasal verb meaning to reject or refuse something."
+                },
+                {
+                    question: "I need to find a solution to this problem. → I need to ______ a solution to this problem.",
+                    answer: "come up with",
+                    explanation: "'Come up with' means to think of or produce an idea or solution."
+                },
+                {
+                    question: "Please submit your homework by tomorrow. → Please ______ your homework by tomorrow.",
+                    answer: "hand in",
+                    explanation: "'Hand in' means to submit or give something to someone in authority."
+                },
+                {
+                    question: "I tolerate his behavior because he's family. → I ______ his behavior because he's family.",
+                    answer: "put up with",
+                    explanation: "'Put up with' means to tolerate or endure something unpleasant."
+                }
+            ]
+        };
+
+        // Global variables
+        let currentSection = '';
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let showingAnswers = false;
+        let showingExplanations = false;
+
+        function startSection(sectionType) {
+            currentSection = sectionType;
+            currentQuestions = testData[sectionType].map((q, i) => ({...q, originalIndex: i}));
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            showingAnswers = false;
+            showingExplanations = false;
+            
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            
+            const sectionTitles = {
+                multipleChoice: 'Multiple Choice Cloze - Phrasal Verbs',
+                openCloze: 'Open Cloze - Particles & Prepositions',
+                wordFormation: 'Word Formation - Phrasal Verb Forms',
+                sentenceTransformation: 'Key Word Transformations - Phrasal Verbs'
+            };
+            
+            document.getElementById('sectionTitle').textContent = sectionTitles[sectionType];
+            
+            renderQuestion();
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function startFullTest() {
+            currentSection = 'fullTest';
+            currentQuestions = [];
+            
+            Object.keys(testData).forEach(section => {
+                testData[section].forEach((q, i) => {
+                    currentQuestions.push({...q, type: section, originalIndex: i});
+                });
+            });
+            
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            showingAnswers = false;
+            showingExplanations = false;
+            
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            
+            document.getElementById('sectionTitle').textContent = 'Complete Phrasal Verb Test';
+            
+            renderQuestion();
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            if (currentQuestions.length === 0) return;
+            
+            const question = currentQuestions[currentQuestionIndex];
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question current';
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'question-header';
+            headerDiv.innerHTML = `
+                <span class="question-number">${currentQuestionIndex + 1} of ${currentQuestions.length}</span>
+            `;
+            questionDiv.appendChild(headerDiv);
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'question-text';
+            
+            let questionText = '';
+            if (question.question) {
+                questionText = question.question;
+            } else if (question.sentence) {
+                questionText = question.sentence;
+            }
+            
+            textDiv.innerHTML = questionText;
+            questionDiv.appendChild(textDiv);
+            
+            if (question.options) {
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                question.options.forEach(option => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question_${currentQuestionIndex}`;
+                    input.value = option;
+                    input.id = `option_${currentQuestionIndex}_${option}`;
+                    
+                    if (userAnswers[currentQuestionIndex] === option) {
+                        input.checked = true;
+                    }
+                    
+                    input.addEventListener('change', () => {
+                        userAnswers[currentQuestionIndex] = option;
+                    });
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = input.id;
+                    label.textContent = option;
+                    
+                    optionDiv.appendChild(input);
+                    optionDiv.appendChild(label);
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'text-input';
+                input.placeholder = 'Enter your answer here...';
+                input.value = userAnswers[currentQuestionIndex] || '';
+                
+                input.addEventListener('input', () => {
+                    userAnswers[currentQuestionIndex] = input.value;
+                });
+                
+                questionDiv.appendChild(input);
+            }
+            
+            if (showingAnswers) {
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'result-item correct';
+                answerDiv.innerHTML = `<strong>Correct Answer:</strong> ${question.answer}`;
+                questionDiv.appendChild(answerDiv);
+            }
+            
+            if (showingExplanations && question.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `<strong>Explanation:</strong> ${question.explanation}`;
+                questionDiv.appendChild(explanationDiv);
+            }
+            
+            container.appendChild(questionDiv);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+                updateProgress();
+                updateNavButtons();
+            } else {
+                finishTest();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+                updateProgress();
+                updateNavButtons();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestionIndex === currentQuestions.length - 1 ? 'Finish Test' : 'Next →';
+        }
+
+        function showAnswers() {
+            showingAnswers = !showingAnswers;
+            document.getElementById('showAnswersBtn').textContent = 
+                showingAnswers ? 'Hide Answers' : 'Show Answers';
+            renderQuestion();
+        }
+
+        function showExplanations() {
+            showingExplanations = !showingExplanations;
+            document.getElementById('showExplanationsBtn').textContent = 
+                showingExplanations ? 'Hide Explanations' : 'Explanations';
+            renderQuestion();
+        }
+
+        function finishTest() {
+            let score = 0;
+            const results = [];
+            
+            currentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index] || '';
+                const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(question.answer);
+                
+                if (isCorrect) score++;
+                
+                results.push({
+                    question,
+                    userAnswer,
+                    isCorrect,
+                    questionNumber: index + 1
+                });
+            });
+            
+            displayResults(score, currentQuestions.length, results);
+        }
+
+        function displayResults(score, total, results) {
+            document.getElementById('testContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('finalScore').textContent = `${score}/${total}`;
+            document.getElementById('scorePercentage').textContent = `${percentage}%`;
+            
+            let message = '';
+            if (percentage >= 90) message = 'Outstanding! You\'ve mastered phrasal verbs!';
+            else if (percentage >= 80) message = 'Excellent! Your phrasal verb skills are strong!';
+            else if (percentage >= 70) message = 'Good work! Keep practicing phrasal verbs!';
+            else if (percentage >= 60) message = 'Not bad, but phrasal verbs need more practice.';
+            else message = 'Keep studying phrasal verbs - they\'re tricky but important!';
+            
+            document.getElementById('scoreMessage').textContent = message;
+            
+            const detailsContainer = document.getElementById('detailedResults');
+            let detailsHTML = '<h3>Detailed Results:</h3>';
+            
+            results.forEach(result => {
+                const statusIcon = result.isCorrect ? '✅' : '❌';
+                const statusClass = result.isCorrect ? 'correct' : 'incorrect';
+                
+                detailsHTML += `
+                    <div class="result-item ${statusClass}">
+                        <strong>Question ${result.questionNumber}:</strong> ${statusIcon}<br>
+                        <strong>Your answer:</strong> ${result.userAnswer || '(no answer)'}<br>
+                        <strong>Correct answer:</strong> ${result.question.answer}
+                        ${result.question.explanation ? `<div class="explanation"><strong>Explanation:</strong> ${result.question.explanation}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            detailsContainer.innerHTML = detailsHTML;
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        function returnToMenu() {
+            document.getElementById('testContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('mainMenu').classList.remove('hidden');
+        }
+
+        function backToHub() {
+            window.location.href = 'index.html';
+        }
+
+        function reviewAnswers() {
+            showingAnswers = true;
+            showingExplanations = true;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+            
+            document.getElementById('showAnswersBtn').textContent = 'Hide Answers';
+            document.getElementById('showExplanationsBtn').textContent = 'Hide Explanations';
+            
+            renderQuestion();
+            updateProgress();
+            updateNavButtons();
+        }
+
+        window.addEventListener('load', () => {
+            console.log('C1 Test 2 - Phrasal Verb Mastery loaded successfully!');
+        });
+    </script>
+</body>
+</html>
