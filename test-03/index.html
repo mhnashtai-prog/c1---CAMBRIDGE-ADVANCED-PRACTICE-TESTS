@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEST 3: Complex Structures — C1</title>
+<style>
+/* ===== STYLE ===== */
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+font-family: 'Segoe UI', sans-serif;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+min-height: 100vh;
+color: white; overflow-x: hidden;
+}
+.container {max-width: 1200px; margin: auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column;}
+.header {margin-bottom: 40px; padding-top: 20px;}
+.header h1 {font-size: 2.5rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 2px;}
+.highlight {color: #f093fb; font-weight: 600;}
+.main-content {display:flex; gap:40px; flex:1;}
+.menu-panel {flex:1; max-width:500px;}
+.menu-item {
+background: rgba(255,255,255,0.1); backdrop-filter: blur(20px);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius:16px; padding:30px; margin-bottom:20px; cursor:pointer;
+transition: all 0.3s ease; position:relative; overflow:hidden;
+}
+.menu-item:hover {background: rgba(255,255,255,0.15); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3);}
+.menu-letter {display:inline-block; width:40px; height:40px; background: rgba(240,147,251,0.9); border-radius:50%; line-height:40px; text-align:center; color:#333; font-weight:bold; margin-right:15px;}
+.generate-more {background: rgba(240,147,251,0.1); border:1px solid rgba(240,147,251,0.3); border-radius:8px; padding:8px 12px; margin-top:10px; font-size:0.9rem; cursor:pointer; transition:all 0.2s;}
+.generate-more:hover {background: rgba(240,147,251,0.2);}
+.welcome-panel {
+flex:1; background: rgba(255,255,255,0.08);
+backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15);
+border-radius:20px; padding:40px; text-align:center;
+}
+.practice-box, .generator-box {margin-top:30px; border-radius:12px; padding:20px;}
+.practice-box {background: rgba(240,147,251,0.1); border:1px solid rgba(240,147,251,0.3);}
+.generator-box {background: rgba(118,75,162,0.1); border:1px solid rgba(118,75,162,0.3);}
+.exercise-screen, .results-screen {display:none; text-align:center;}
+.progress-container {background: rgba(255,255,255,0.1); border-radius:10px; height:8px; margin-bottom:20px;}
+.progress-bar {height:100%; background: linear-gradient(90deg,#f093fb,#764ba2); width:0%; border-radius:10px; transition:width 0.3s;}
+.question-container {background: rgba(255,255,255,0.1); backdrop-filter: blur(20px);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius:16px; padding:40px; margin-bottom:30px; text-align:left;}
+.question {font-size:1.2rem; margin-bottom:25px;}
+.options {display:grid; gap:15px;}
+.option {background: rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.2);
+border-radius:12px; padding:15px 20px; cursor:pointer; display:flex; align-items:center; transition:all 0.3s;}
+.option:hover {background: rgba(240,147,251,0.1); border-color: rgba(240,147,251,0.5);}
+.option-letter {display:inline-block; width:30px; height:30px; border-radius:50%; background: rgba(255,255,255,0.2); line-height:30px; text-align:center; margin-right:12px; font-weight:bold;}
+.option.correct {background: rgba(76,175,80,0.2); border-color: #4CAF50;}
+.option.incorrect {background: rgba(244,67,54,0.2); border-color: #f44336;}
+.input-field {background: rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3);
+border-radius:12px; padding:15px; color:white; font-size:1rem; width:100%; margin:10px 0;}
+.input-field::placeholder {color: rgba(255,255,255,0.5);}
+.base-word {background: rgba(240,147,251,0.2); border:1px solid #f093fb; border-radius:6px; padding:4px 8px; font-weight:bold; color:#f093fb;}
+.controls {display:flex; justify-content:center; gap:10px; margin-top:20px; flex-wrap:wrap;}
+.btn {background: linear-gradient(45deg,#f093fb,#764ba2); border:none; border-radius:25px; padding:12px 25px; font-weight:600; cursor:pointer; transition:all 0.3s; color:white; font-size:0.95rem;}
+.btn:hover {transform:translateY(-2px); box-shadow:0 8px 15px rgba(0,0,0,0.2);}
+.btn:disabled {opacity:0.5; cursor:not-allowed; transform:none;}
+.btn-secondary {background: rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3); color:white;}
+.btn-generate {background: linear-gradient(45deg,#667eea,#764ba2); color:white; font-weight:700;}
+.score-card {background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius:20px; padding:30px; margin-bottom:30px;}
+.score-circle {width:120px; height:120px; border:8px solid rgba(240,147,251,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; position:relative;}
+.score-text {font-size:1.8rem; font-weight:bold; color:#f093fb;}
+.answer-review {text-align:left;}
+.answer-item {background: rgba(255,255,255,0.05); border-radius:12px; padding:15px; margin-bottom:15px;}
+.answer-item.correct {border-left:4px solid #4CAF50;}
+.answer-item.incorrect {border-left:4px solid #f44336;}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- MAIN MENU -->
+<div id="mainMenu">
+<div class="header">
+<h1>TEST 3: COMPLEX STRUCTURES — <span class="highlight">C1</span></h1>
+<p>Advanced sentence patterns and transformations for Cambridge C1</p>
+</div>
+<div class="main-content">
+<div class="menu-panel">
+<div class="menu-item" onclick="startExercise('multipleChoice')">
+<div class="menu-letter">A</div>
+<h3>Multiple Choice</h3>
+<p>12 complex grammatical structures</p>
+<div class="generate-more" onclick="event.stopPropagation(); generateNew('multipleChoice')">✨ Generate New Questions</div>
+</div>
+<div class="menu-item" onclick="startExercise('gapFill')">
+<div class="menu-letter">B</div>
+<h3>Gap Fill</h3>
+<p>8 advanced structural patterns</p>
+<div class="generate-more" onclick="event.stopPropagation(); generateNew('gapFill')">✨ Generate New Questions</div>
+</div>
+<div class="menu-item" onclick="startExercise('wordFormation')">
+<div class="menu-letter">C</div>
+<h3>Word Formation</h3>
+<p>8 complex word transformations</p>
+<div class="generate-more" onclick="event.stopPropagation(); generateNew('wordFormation')">✨ Generate New Questions</div>
+</div>
+<div class="menu-item" onclick="startExercise('sentenceTransformation')">
+<div class="menu-letter">D</div>
+<h3>Sentence Transformation</h3>
+<p>6 advanced structural rewrites</p>
+<div class="generate-more" onclick="event.stopPropagation(); generateNew('sentenceTransformation')">✨ Generate New Questions</div>
+</div>
+</div>
+<div class="welcome-panel">
+<h2>Welcome to Test 3</h2>
+<p>Master complex grammatical structures and advanced patterns.</p>
+<div class="practice-box">
+<h3>🧠 Structural Mastery</h3>
+<p>From <strong>cleft sentences</strong> to <strong>inversion</strong> - conquer C1 complexity.</p>
+</div>
+<div class="generator-box">
+<h3>✨ Advanced Generator</h3>
+<p>Each exercise creates <strong>new complex patterns</strong> from our expert C1 database!</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- EXERCISE SCREEN -->
+<div id="exerciseScreen" class="exercise-screen">
+<div class="exercise-header">
+<h2 id="exerciseTitle" class="exercise-title">Multiple Choice</h2>
+<div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+<div id="questionNumber" class="question-number">Question 1 of 12</div>
+</div>
+<div id="questionContainer" class="question-container"></div>
+<div class="controls">
+<button class="btn btn-secondary" onclick="returnToMenu()">RETURN TO MENU</button>
+<button id="nextBtn" class="btn" onclick="nextQuestion()">NEXT</button>
+</div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="resultsScreen" class="results-screen">
+<h2 class="exercise-title">Results</h2>
+<div class="score-card">
+<div class="score-circle"><div id="finalScore" class="score-text">0/0</div></div>
+<h3>Your Score</h3>
+<p id="scoreMessage"></p>
+</div>
+<div id="answerKey" class="answer-review"></div>
+<div class="controls">
+<button class="btn btn-secondary" onclick="returnToMenu()">RETURN TO MENU</button>
+<button class="btn" onclick="restartExercise()">TRY AGAIN</button>
+</div>
+</div>
+</div>
+
+<script>
+/* ==== COMPLEX STRUCTURES GENERATORS + LOGIC ==== */
+const exerciseTemplates={
+multipleChoice:{title:"Multiple Choice",totalQuestions:12,type:"multipleChoice"},
+gapFill:{title:"Gap Fill",totalQuestions:8,type:"gapFill"},
+wordFormation:{title:"Word Formation",totalQuestions:8,type:"wordFormation"},
+sentenceTransformation:{title:"Sentence Transformation",totalQuestions:6,type:"sentenceTransformation"}
+};
+
+const exerciseGenerators={
+multipleChoice:{
+patterns:[
+{template:"_____ for your help, I would never have completed the project.",options:["Had it not been","If it had not been","Were it not","Should it not be"],correct:0,explanation:"Inversion in third conditional: Had it not been = If it had not been"},
+{template:"It was the director _____ insisted on changing the script.",options:["which","what","who","whom"],correct:2,explanation:"Cleft sentence with 'who' for people"},
+{template:"_____ me is a good night's sleep.",options:["What I need","That I need","I need what","What do I need"],correct:0,explanation:"Pseudo-cleft sentence: What I need is..."},
+{template:"Never _____ such a brilliant performance.",options:["I have seen","have I seen","I had seen","had I seen"],correct:1,explanation:"Inversion after negative adverbs: Never have I seen"},
+{template:"The company, _____ profits have declined, is restructuring.",options:["which","that","whose","who"],correct:2,explanation:"Whose shows possession in relative clauses"},
+{template:"_____ the weather improved, we decided to continue hiking.",options:["Having","Being","With","As"],correct:0,explanation:"Having + past participle shows completed action"},
+{template:"It is essential that she _____ on time for the interview.",options:["is","will be","be","would be"],correct:2,explanation:"Subjunctive: It is essential that + base form"},
+{template:"_____ circumstances would I reveal that information.",options:["Under no","In no","At no","For no"],correct:0,explanation:"Inversion after negative expressions: Under no circumstances"},
+{template:"The building, _____ construction began last year, will open soon.",options:["which","whose","that","where"],correct:1,explanation:"Whose shows possession: the building's construction"},
+{template:"_____ working late, she managed to finish the report.",options:["Despite","Although","In spite","While"],correct:0,explanation:"Despite + -ing form"},
+{template:"It was not until midnight _____ the power was restored.",options:["when","that","which","where"],correct:1,explanation:"Cleft sentence with 'not until': It was not until X that Y"},
+{template:"_____ I to win the lottery, I would travel the world.",options:["Should","Would","Could","Were"],correct:3,explanation:"Inversion in second conditional: Were I to = If I were to"}
+],
+generate:function(){
+return this.patterns.map(p=>({question:p.template,options:p.options,correct:p.correct,explanation:p.explanation}));
+}
+},
+
+gapFill:{
+patterns:[
+{template:"Only when the results were announced _____ we realize our mistake.",correct:"did",explanation:"Inversion after 'Only when': did we realize"},
+{template:"It is high time you _____ responsibility for your actions.",correct:"took",explanation:"It is time + past tense (subjunctive)"},
+{template:"_____ for his quick thinking, the accident would have been worse.",correct:"Had",explanation:"Had it not been for = If it hadn't been for"},
+{template:"The committee insisted that the proposal _____ reviewed immediately.",correct:"be",explanation:"Subjunctive: insisted that + base form"},
+{template:"What really annoys me _____ people who are always late.",correct:"is",explanation:"Pseudo-cleft: What annoys me is..."},
+{template:"_____ having studied hard, she failed the exam.",correct:"Despite",explanation:"Despite + -ing form"},
+{template:"It was John _____ broke the window, not Mary.",correct:"who",explanation:"Cleft sentence for emphasis: It was John who..."},
+{template:"Rarely _____ such dedication in a student.",correct:"have",explanation:"Inversion after frequency adverbs: have I seen"}
+],
+generate:function(){return this.patterns.map(p=>({question:p.template,correct:p.correct,explanation:p.explanation}));}
+},
+
+wordFormation:{
+patterns:[
+{base:"UNDERSTAND",sentence:"There seems to be a _____ about the meeting time.",correct:"misunderstanding",explanation:"Misunderstanding = confusion/wrong interpretation"},
+{base:"RESPOND",sentence:"The government's _____ to the crisis was swift.",correct:"response",explanation:"Response (noun) from respond (verb)"},
+{base:"DEPEND",sentence:"His _____ on technology is concerning.",correct:"dependence",explanation:"Dependence = state of relying on something"},
+{base:"CRITIC",sentence:"The film received _____ reviews from all major newspapers.",correct:"critical",explanation:"Critical = expressing criticism"},
+{base:"COMPARE",sentence:"The _____ study showed significant differences.",correct:"comparative",explanation:"Comparative = involving comparison"},
+{base:"ANALYZE",sentence:"Her _____ of the data was thorough and accurate.",correct:"analysis",explanation:"Analysis (noun) from analyze (verb)"},
+{base:"DECIDE",sentence:"The committee's _____ was unanimous.",correct:"decision",explanation:"Decision (noun) from decide (verb)"},
+{base:"CREATE",sentence:"The artist's _____ knows no bounds.",correct:"creativity",explanation:"Creativity = quality of being creative"}
+],
+generate:function(){return this.patterns.map(p=>({question:p.sentence,base:p.base,correct:p.correct,explanation:p.explanation}));}
+},
+
+sentenceTransformation:{
+patterns:[
+{prompt:"I have never seen such a beautiful sunset. (NEVER)",answer:"Never have I seen such a beautiful sunset",explanation:"Inversion after Never"},
+{prompt:"The reason I'm late is the traffic jam. (WHAT)",answer:"What made me late is the traffic jam",explanation:"Pseudo-cleft sentence with What"},
+{prompt:"If you hadn't helped me, I would have failed. (HAD)",answer:"Had you not helped me, I would have failed",explanation:"Inversion in third conditional"},
+{prompt:"It is important that he arrives punctually. (ESSENTIAL)",answer:"It is essential that he arrive punctually",explanation:"Subjunctive with essential"},
+{prompt:"The manager was the person who made the decision. (IT)",answer:"It was the manager who made the decision",explanation:"Cleft sentence for emphasis"},
+{prompt:"Despite being tired, she continued working. (ALTHOUGH)",answer:"Although she was tired, she continued working",explanation:"Although + clause vs Despite + -ing"}
+],
+generate:function(){return this.patterns;}
+}
+};
+
+let currentExercise=null,currentQuestions=[],currentIndex=0,score=0,answerKey=[];
+
+function startExercise(type){
+currentExercise=exerciseTemplates[type];
+currentQuestions=exerciseGenerators[type].generate();
+currentIndex=0;score=0;answerKey=[];
+document.getElementById("exerciseTitle").textContent=currentExercise.title;
+document.getElementById("mainMenu").style.display="none";
+document.getElementById("resultsScreen").style.display="none";
+document.getElementById("exerciseScreen").style.display="block";
+displayQuestion();
+}
+
+function displayQuestion(){
+const qData=currentQuestions[currentIndex], qc=document.getElementById("questionContainer");
+document.getElementById("questionNumber").textContent=`Question ${currentIndex+1} of ${currentExercise.totalQuestions}`;
+document.getElementById("progressBar").style.width=(currentIndex/currentExercise.totalQuestions*100)+"%";
+document.getElementById("nextBtn").disabled=true;
+
+if(currentExercise.type==="multipleChoice"){
+let html=`<div class='question'>${qData.question}</div><div class='options'>`;
+qData.options.forEach((opt,i)=>{html+=`<div class='option' onclick='selectOption(${i})'><div class='option-letter'>${String.fromCharCode(65+i)}</div>${opt}</div>`;});
+qc.innerHTML=html+"</div>";
+}
+else if(currentExercise.type==="gapFill"){
+qc.innerHTML=`<div class='question'>${qData.question}</div><input id='gapInput' class='input-field' placeholder='Enter the missing word...' onkeyup="if(event.key==='Enter')checkGapFill()"><button class='btn' onclick='checkGapFill()' style='margin-top:10px;'>Check Answer</button><div id='gapFeedback' style='margin-top:15px;'></div>`;
+}
+else if(currentExercise.type==="wordFormation"){
+qc.innerHTML=`<div class='question'>${qData.question}</div><div style='margin:15px 0;'>Base word: <span class='base-word'>${qData.base}</span></div><input id='wfInput' class='input-field' placeholder='Enter the correct form...' onkeyup="if(event.key==='Enter')checkWordFormation()"><button class='btn' onclick='checkWordFormation()' style='margin-top:10px;'>Check Answer</button><div id='wfFeedback' style='margin-top:15px;'></div>`;
+}
+else if(currentExercise.type==="sentenceTransformation"){
+qc.innerHTML=`<div class='question'>${qData.prompt}</div><input id='stInput' class='input-field' placeholder='Complete the transformation...' onkeyup="if(event.key==='Enter')checkSentenceTransformation()"><button class='btn' onclick='checkSentenceTransformation()' style='margin-top:10px;'>Check Answer</button><div id='stFeedback' style='margin-top:15px;'></div>`;
+}
+}
+
+function selectOption(i){
+const q=currentQuestions[currentIndex],correctIndex=q.correct;
+document.querySelectorAll(".option").forEach((el,idx)=>{
+el.classList.remove("correct","incorrect");
+if(idx===correctIndex) el.classList.add("correct");
+else if(idx===i) el.classList.add("incorrect");
+});
+if(i===correctIndex) score++;
+answerKey.push({question:q.question,entered:q.options[i],correct:q.options[correctIndex],result:i===correctIndex,explanation:q.explanation});
+document.getElementById("nextBtn").disabled=false;
+}
+
+function checkGapFill(){
+const val=document.getElementById("gapInput").value.trim().toLowerCase(),q=currentQuestions[currentIndex];
+const isCorrect = val===q.correct.toLowerCase();
+document.getElementById("gapFeedback").innerHTML=isCorrect?("<span style='color:#4CAF50;'>✓ Correct! "+q.explanation+"</span>"):("<span style='color:#f44336;'>✗ Incorrect. Answer: <strong>"+q.correct+"</strong><br>"+q.explanation+"</span>");
+if(isCorrect) score++;
+answerKey.push({question:q.question,entered:val,correct:q.correct,result:isCorrect,explanation:q.explanation});
+document.getElementById("nextBtn").disabled=false;
+}
+
+function checkWordFormation(){
+const val=document.getElementById("wfInput").value.trim().toLowerCase(),q=currentQuestions[currentIndex];
+const isCorrect = val===q.correct.toLowerCase();
+document.getElementById("wfFeedback").innerHTML=isCorrect?("<span style='color:#4CAF50;'>✓ Correct! "+q.explanation+"</span>"):("<span style='color:#f44336;'>✗ Incorrect. Answer: <strong>"+q.correct+"</strong><br>"+q.explanation+"</span>");
+if(isCorrect) score++;
+answerKey.push({question:q.question,entered:val,correct:q.correct,result:isCorrect,explanation:q.explanation});
+document.getElementById("nextBtn").disabled=false;
+}
+
+function checkSentenceTransformation(){
+const val=document.getElementById("stInput").value.trim().toLowerCase(),q=currentQuestions[currentIndex];
+const isCorrect = val.includes(q.answer.toLowerCase());
+document.getElementById("stFeedback").innerHTML=isCorrect?("<span style='color:#4CAF50;'>✓ Excellent! "+q.explanation+"</span>"):("<span style='color:#f44336;'>✗ Try again. Expected: <strong>"+q.answer+"</strong><br>"+q.explanation+"</span>");
+if(isCorrect) score++;
+answerKey.push({question:q.prompt,entered:val,correct:q.answer,result:isCorrect,explanation:q.explanation});
+document.getElementById("nextBtn").disabled=false;
+}
+
+function nextQuestion(){
+currentIndex++;
+if(currentIndex<currentExercise.totalQuestions){displayQuestion();} else {showResults();}
+}
+
+function showResults(){
+document.getElementById("exerciseScreen").style.display="none";
+document.getElementById("resultsScreen").style.display="block";
+document.getElementById("finalScore").textContent=`${score}/${currentExercise.totalQuestions}`;
+
+const percentage = Math.round((score/currentExercise.totalQuestions)*100);
+const message = percentage >= 80 ? "🧠 Outstanding! You've mastered complex structures!" : 
+                percentage >= 60 ? "👍 Great progress! Complex grammar is challenging." : 
+                "💪 Keep practicing! These structures take time to master.";
+document.getElementById("scoreMessage").textContent = message;
+
+let rev="";
+answerKey.forEach((a,i)=>{
+rev+=`<div class='answer-item ${a.result?"correct":"incorrect"}'>
+<div><b>Q${i+1}:</b> ${a.question}</div>
+<div><strong>Your answer:</strong> ${a.entered}</div>
+<div><strong>Correct:</strong> ${a.correct}</div>
+<div style='font-size:0.9em; opacity:0.9; margin-top:5px;'>${a.explanation}</div>
+</div>`;
+});
+
+rev += `<div style="text-align:center; margin-top:20px;">
+<button class="btn btn-generate" onclick="generateNew(currentExercise.type)">
+🔄 GENERATE NEW SET
+</button>
+</div>`;
+
+document.getElementById("answerKey").innerHTML=rev;
+}
+
+function generateNew(type){startExercise(type);}
+
+function returnToMenu(){
+window.location.href = 'https://your-project.vercel.app/';  // Update with your actual URL
+}
+
+function restartExercise(){
+currentIndex=0;score=0;answerKey=[];
+document.getElementById("exerciseScreen").style.display="block";
+document.getElementById("resultsScreen").style.display="none";
+displayQuestion();
+}
+</script>
+</body>
+</html>
