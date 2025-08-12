@@ -487,21 +487,18 @@
     </div>
 
     <script>
-        function startTest(testNumber) {
-             const baseUrl = 'https://c1-cambridge-advanced-practice-tests-cbeq.vercel.app';
+       function startTest(testNumber) {
+  if (testNumber === 1) {
+    // Opens C1 test program page in same tab
+    window.location.href = 'c1-menu/index.html';
     
-              if (testNumber === 1) {
-              window.open(`${baseUrl}/test-01/`, '_blank');
-              } else if (testNumber === 2) {
-              window.open(`${baseUrl}/test-02/`, '_blank');
-              } else if (testNumber === 3) {
-              window.open(`${baseUrl}/test-03/`, '_blank');
-              } 
-              // ... continue for all tests
-              else {
-        comingSoon(testNumber);
-         }
-       }
+    // Or to open in a new tab:
+    // window.open('c1-menu/index.html', '_blank');
+  } else {
+    comingSoon(testNumber);
+  }
+}
+
 
         function comingSoon(testNumber) {
             const messages = [
