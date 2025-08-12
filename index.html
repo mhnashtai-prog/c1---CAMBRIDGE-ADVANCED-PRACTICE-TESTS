@@ -489,14 +489,21 @@
     <script>
        function startTest(testNumber) {
   if (testNumber === 1) {
-    // Opens C1 test program page in same tab
+    // Open C1 Advanced Practice Test (Card 1) in same tab
+    window.location.href = 'test-01/index.html';
+
+  } else if (testNumber === 2) {
+    // Open Similar Words program (Card 2)
     window.location.href = 'c1-menu/index.html';
+
+    // Or, if you prefer opening new tabs:
+    // window.open('similar-words/index.html', '_blank');
     
-    // Or to open in a new tab:
-    // window.open('c1-menu/index.html', '_blank');
   } else {
     comingSoon(testNumber);
   }
+}
+
 }
 
 
